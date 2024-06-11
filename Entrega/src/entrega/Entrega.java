@@ -81,16 +81,54 @@ class Entrega {
      * Vegeu el mètode Tema1.tests() per exemples.
          */
         static int exercici1(int n) {
-            return 5;
+            int count = 0;
+            int totalCases = 1;
+
+            for (int i = 0; i < n; i++) {
+                totalCases *= 2;
+            }
+
+            for (int i = 0; i < totalCases; i++) {
+                boolean[] propositions = new boolean[n];
+                for (int j = 0; j < n; j++) {
+                    propositions[j] = (i & (1 << j)) != 0;
+                }
+                if (evaluateProposition(propositions)) {
+                    count++;
+                }
+            }
+
+            return count;
         }
 
+        static boolean evaluateProposition(boolean[] propositions) {
+            boolean result = propositions[0];
+            for (int i = 1; i < propositions.length; i++) {
+                result = !result || propositions[i];
+            }
+            return result;
+        }
 
         /*
      * És cert que ∀x : P(x) -> ∃!y : Q(x,y) ?
          */
         static boolean exercici2(int[] universe, Predicate<Integer> p, BiPredicate<Integer, Integer> q) {
-            return false; // TODO
+            for (int x : universe) {
+                if (p.test(x)) {
+                    int count = 0;
+                    for (int y : universe) {
+                        if (q.test(x, y)) {
+                            count++;
+                        }
+                    }
+                    if (count != 1) {
+                        return false; // Si no hay exactamente un y, retorna falso
+                    }
+                }
+            }
+            return true; // Si se cumple para todos los x en el universo, retorna verdadero
         }
+
 
         /*
      * És cert que ∃x : ∀y : Q(x, y) -> P(x) ?
