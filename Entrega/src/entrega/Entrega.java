@@ -81,7 +81,7 @@ class Entrega {
      * Vegeu el mètode Tema1.tests() per exemples.
          */
         static int exercici1(int n) {
-            return 0;
+            return 5;
         }
 
 
